@@ -8,7 +8,9 @@ export default function ConspiracyPage() {
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=Special+Elite&display=swap');
+        *, *::before, *::after {
+          box-sizing: border-box;
+        }
 
         :root {
           --red: #ff2020;
@@ -22,14 +24,17 @@ export default function ConspiracyPage() {
 
         .conspiracy-page {
           background: #0a0804;
-          min-height: 100vh;
+          position: fixed;
+          inset: 0;
+          overflow-y: auto;
           display: flex;
-          align-items: center;
+          align-items: flex-start;
           justify-content: center;
           font-family: 'Share Tech Mono', monospace;
-          overflow: hidden;
-          cursor: crosshair;
-          position: relative;
+          color: var(--ink);
+          cursor: default;
+          padding: 32px 16px;
+          z-index: 9000;
         }
 
         .scanline-overlay {
@@ -40,8 +45,8 @@ export default function ConspiracyPage() {
             0deg,
             transparent,
             transparent 2px,
-            rgba(0,0,0,0.15) 2px,
-            rgba(0,0,0,0.15) 4px
+            rgba(0,0,0,0.06) 2px,
+            rgba(0,0,0,0.06) 4px
           );
           pointer-events: none;
           z-index: 100;
@@ -82,7 +87,9 @@ export default function ConspiracyPage() {
         .invite {
           position: relative;
           z-index: 10;
-          width: 580px;
+          width: 100%;
+          max-width: 580px;
+          margin: auto;
           background: var(--paper);
           padding: 0;
           box-shadow:
@@ -101,19 +108,28 @@ export default function ConspiracyPage() {
 
         .tape-top {
           background: var(--red);
-          padding: 6px 20px;
+          padding: 6px 12px;
           display: flex;
           align-items: center;
           justify-content: space-between;
           font-family: 'Share Tech Mono', monospace;
-          font-size: 10px;
+          font-size: 8px;
           color: white;
-          letter-spacing: 3px;
+          letter-spacing: 1px;
           text-transform: uppercase;
+          gap: 8px;
+        }
+
+        .tape-top span {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          min-width: 0;
         }
 
         .tape-dot {
           width: 8px; height: 8px;
+          flex-shrink: 0;
           border-radius: 50%;
           background: white;
           opacity: 0.7;
@@ -126,11 +142,13 @@ export default function ConspiracyPage() {
         }
 
         .main-content {
-          padding: 36px 44px 32px;
+          padding: 24px 20px 20px;
           position: relative;
         }
 
+        /* Corner stamps: hidden on mobile, visible on larger cards */
         .corner-stamp {
+          display: none;
           position: absolute;
           font-family: 'Share Tech Mono', monospace;
           font-size: 9px;
@@ -183,17 +201,16 @@ export default function ConspiracyPage() {
         .classified-label {
           font-family: 'Bebas Neue', sans-serif;
           font-size: 11px;
-          letter-spacing: 8px;
+          letter-spacing: 4px;
           text-align: center;
           color: var(--red);
           margin-bottom: 16px;
           opacity: 0.8;
-          white-space: nowrap;
         }
 
         .headline {
           font-family: 'Bebas Neue', sans-serif;
-          font-size: 68px;
+          font-size: clamp(44px, 14vw, 68px);
           line-height: 0.88;
           text-align: center;
           color: var(--ink);
@@ -202,7 +219,7 @@ export default function ConspiracyPage() {
           position: relative;
         }
 
-        .headline .glitch {
+        .headline .headline-word {
           position: relative;
           display: inline-block;
           animation: glitchwobble 6s ease-in-out infinite;
@@ -221,9 +238,9 @@ export default function ConspiracyPage() {
 
         .headline-sub {
           font-family: 'Bebas Neue', sans-serif;
-          font-size: 28px;
+          font-size: clamp(16px, 5vw, 28px);
           text-align: center;
-          letter-spacing: 6px;
+          letter-spacing: 3px;
           color: var(--red);
           margin-bottom: 20px;
         }
@@ -285,7 +302,7 @@ export default function ConspiracyPage() {
 
         .details-grid {
           display: grid;
-          grid-template-columns: 1fr 1fr 1fr;
+          grid-template-columns: 1fr;
           gap: 0;
           border: 1px solid rgba(26,20,8,0.15);
           margin-bottom: 18px;
@@ -293,11 +310,10 @@ export default function ConspiracyPage() {
 
         .detail-cell {
           padding: 12px 14px;
-          border-right: 1px solid rgba(26,20,8,0.12);
-          position: relative;
+          border-bottom: 1px solid rgba(26,20,8,0.12);
         }
 
-        .detail-cell:last-child { border-right: none; }
+        .detail-cell:last-child { border-bottom: none; }
 
         .detail-label {
           font-size: 8px;
@@ -326,24 +342,25 @@ export default function ConspiracyPage() {
 
         .warning-strip {
           background: var(--ink);
-          padding: 8px 16px;
+          padding: 8px 12px;
           display: flex;
-          align-items: center;
+          align-items: flex-start;
           gap: 10px;
           margin-bottom: 18px;
         }
 
         .warning-strip .icon {
           font-size: 14px;
+          flex-shrink: 0;
           animation: blink 1.5s steps(1) infinite;
         }
 
         .warning-strip p {
           font-family: 'Share Tech Mono', monospace;
-          font-size: 9.5px;
+          font-size: 9px;
           color: var(--green);
-          letter-spacing: 2px;
-          line-height: 1.5;
+          letter-spacing: 1px;
+          line-height: 1.6;
           text-transform: uppercase;
         }
 
@@ -353,13 +370,13 @@ export default function ConspiracyPage() {
 
         .rsvp-row {
           display: flex;
+          flex-direction: column;
           align-items: center;
-          justify-content: space-between;
-          gap: 12px;
+          gap: 16px;
         }
 
         .rsvp-block {
-          flex: 1;
+          width: 100%;
           border: 1px dashed rgba(26,20,8,0.25);
           padding: 12px 14px;
           position: relative;
@@ -435,14 +452,14 @@ export default function ConspiracyPage() {
           opacity: 0.8;
         }
 
+        /* Holes: hidden on mobile, shown on wider layouts */
         .holes {
+          display: none;
           position: absolute;
           left: -1px;
           top: 0; bottom: 0;
-          display: flex;
           flex-direction: column;
           justify-content: space-evenly;
-          gap: 0;
           pointer-events: none;
         }
 
@@ -473,6 +490,83 @@ export default function ConspiracyPage() {
           background: rgba(255,255,180,0.55);
           border: 1px solid rgba(200,200,100,0.3);
           z-index: 20;
+        }
+
+        /* Tablet and up */
+        @media (min-width: 480px) {
+          .tape-top {
+            font-size: 10px;
+            letter-spacing: 2px;
+            padding: 6px 16px;
+          }
+
+          .classified-label {
+            letter-spacing: 6px;
+          }
+
+          .headline-sub {
+            letter-spacing: 5px;
+          }
+
+          .details-grid {
+            grid-template-columns: 1fr 1fr 1fr;
+          }
+
+          .detail-cell {
+            border-right: 1px solid rgba(26,20,8,0.12);
+            border-bottom: none;
+          }
+
+          .detail-cell:last-child {
+            border-right: none;
+          }
+
+          .warning-strip p {
+            font-size: 9.5px;
+            letter-spacing: 2px;
+          }
+
+          .rsvp-row {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+          }
+
+          .rsvp-block {
+            width: auto;
+            flex: 1;
+          }
+        }
+
+        /* Desktop */
+        @media (min-width: 600px) {
+          .conspiracy-page {
+            padding: 40px 24px;
+          }
+
+          .main-content {
+            padding: 36px 44px 32px;
+          }
+
+          .tape-top {
+            letter-spacing: 3px;
+          }
+
+          .classified-label {
+            letter-spacing: 8px;
+          }
+
+          .headline-sub {
+            letter-spacing: 6px;
+          }
+
+          .corner-stamp {
+            display: block;
+          }
+
+          .holes {
+            display: flex;
+          }
         }
       `}} />
 
@@ -515,9 +609,9 @@ export default function ConspiracyPage() {
             <div className="classified-label">// You Have Been Selected For Awareness //</div>
 
             <div className="headline">
-              <div className="glitch">WE ARE</div><br />
-              <div className="glitch" style={{ animationDelay: "2s" }}>ALL</div><br />
-              <div className="glitch" style={{ animationDelay: "4s", color: "var(--red)" }}>SHEEP</div>
+              <div className="headline-word">WE ARE</div><br />
+              <div className="headline-word" style={{ animationDelay: "2s" }}>ALL</div><br />
+              <div className="headline-word" style={{ animationDelay: "4s", color: "var(--red)" }}>SHEEP</div>
             </div>
 
             <div className="headline-sub">An Evening of Uncovering True Conspiracy Theories</div>
@@ -530,7 +624,7 @@ export default function ConspiracyPage() {
                 <li>▸ &nbsp;Pick your favorite conspiracy theory and <em>convince us we are all sheep</em></li>
                 <li>▸ &nbsp;You have <strong>10 MINUTES</strong> to make believers out of us</li>
                 <li>▸ &nbsp;Slides and/or props are <strong>STRONGLY ENCOURAGED</strong></li>
-                <li>▸ &nbsp;First Prize: <strong>THE TRUTH</strong> &nbsp;<span className="redact">████████</span></li>
+                <li>▸ &nbsp;First Prize: <strong>THE TRUTH</strong> &nbsp;<span className="redact">Nice try Michael</span></li>
               </ul>
             </div>
 
