@@ -32,13 +32,14 @@ export const slides: Slide[] = [
     id: 4,
     label: "POST-WWII, 1945",
     headline: "A deal is struck.",
+    body: "Japan gets unlimited fish from the Baltic Sea.\nRussia gets hard currency, off the books.\n\nAll they need is a country to ship it through.",
     variant: "deal",
   },
   {
     id: 5,
     label: "THE PLAN",
     headline: "They invent a country.",
-    body: "They needed a name. Something Nordic. Something plausible. Something that would never raise suspicion.\n\nWhat do fish have?\n\nFins.",
+    body: "They needed a name. Something Nordic. Something plausible. Something that would never raise suspicion.\n\nThey needed borders. A flag. A language. 5.5 million actors.\n\nThey needed it to look real.",
     variant: "default",
   },
   {
@@ -69,7 +70,8 @@ export const slides: Slide[] = [
   },
   {
     id: 10,
-    headline: "So what is actually there?",
+    label: "THE GEOGRAPHY",
+    headline: "And the country itself?",
     variant: "zoom",
   },
   {
@@ -88,7 +90,7 @@ export const slides: Slide[] = [
     id: 13,
     label: "TOO PERFECT",
     headline: "Suspiciously perfect for a place that doesn't exist.",
-    body: "#1 in happiness\n#1 in education\n#1 in coffee consumption per capita",
+    body: "#1 in happiness\n#1 in education\n#1 in coffee consumption per capita\n\nNo real country tops every list. Cover stories do.",
     variant: "stats",
   },
   {
@@ -101,7 +103,7 @@ export const slides: Slide[] = [
     id: 15,
     label: "WAKE UP",
     headline: "The Swedish Fish in your hand is the only Finland that's real.",
-    body: "You've been holding the evidence this whole time.",
+    body: "What do fish have? Fins.\n\nTell a Finn. Watch their face.",
     variant: "curtain",
   },
 ];

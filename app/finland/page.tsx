@@ -483,10 +483,30 @@ function DealSlide({ slide }: { slide: Slide }) {
             lineHeight: 1.0,
             letterSpacing: "0.02em",
             textShadow: `0 0 40px rgba(10,2,2,1), 0 0 100px rgba(10,2,2,0.9)`,
+            marginBottom: slide.body ? 28 : 0,
           }}
         >
           {slide.headline}
         </motion.h2>
+        {slide.body && slide.body.split("\n").map((line, i) => (
+          <motion.p
+            key={i}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: line === "" ? 0 : 1, y: 0 }}
+            transition={{ delay: 0.5 + i * 0.1, duration: 0.4 }}
+            style={{
+              fontFamily: "Inter, system-ui, sans-serif",
+              fontSize: "clamp(15px, 2vw, 20px)",
+              color: WHITE,
+              lineHeight: 1.6,
+              opacity: 0.9,
+              marginBottom: line === "" ? 8 : 0,
+              textShadow: `0 0 20px rgba(10,2,2,1), 0 0 40px rgba(10,2,2,0.9)`,
+            }}
+          >
+            {line}
+          </motion.p>
+        ))}
       </div>
     </div>
   );
