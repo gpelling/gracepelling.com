@@ -80,6 +80,82 @@ function TitleSlide() {
   );
 }
 
+function BriefingSlide({ slide }: { slide: Slide }) {
+  const lines = slide.body?.split("\n") ?? [];
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "100%", maxWidth: 900, margin: "0 auto", padding: "0 40px", position: "relative" }}>
+      {/* map — pinned to the right, faded */}
+      <motion.img
+        src="/scandinavia.svg"
+        alt=""
+        initial={{ opacity: 0, x: 40 }}
+        animate={{ opacity: 0.18, x: 0 }}
+        transition={{ delay: 0.3, duration: 0.8 }}
+        style={{
+          position: "absolute",
+          right: -60,
+          top: "50%",
+          transform: "translateY(-50%)",
+          width: 420,
+          pointerEvents: "none",
+          userSelect: "none",
+        }}
+      />
+      {slide.label && (
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35 }}
+          style={{
+            fontFamily: "Inter, system-ui, sans-serif",
+            fontSize: 12,
+            letterSpacing: "0.35em",
+            color: GOLD,
+            textTransform: "uppercase",
+            marginBottom: 20,
+          }}
+        >
+          {slide.label}
+        </motion.p>
+      )}
+      <motion.h2
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1, duration: 0.4 }}
+        style={{
+          fontFamily: "'Bebas Neue', sans-serif",
+          fontSize: "clamp(40px, 7vw, 80px)",
+          color: WHITE,
+          lineHeight: 1.05,
+          letterSpacing: "0.02em",
+          marginBottom: 32,
+        }}
+      >
+        {slide.headline}
+      </motion.h2>
+      {lines.map((line, i) => (
+        <motion.p
+          key={i}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: line === "" ? 0 : 1, y: 0 }}
+          transition={{ delay: 0.25 + i * 0.08, duration: 0.35 }}
+          style={{
+            fontFamily: "Inter, system-ui, sans-serif",
+            fontSize: "clamp(16px, 2.2vw, 22px)",
+            color: WHITE,
+            lineHeight: 1.65,
+            opacity: 0.88,
+            marginBottom: line === "" ? 12 : 0,
+          }}
+        >
+          {line}
+        </motion.p>
+      ))}
+    </div>
+  );
+}
+
 function DefaultSlide({ slide }: { slide: Slide }) {
   const lines = slide.body?.split("\n") ?? [];
 
@@ -289,14 +365,133 @@ function CurtainSlide({ slide }: { slide: Slide }) {
   );
 }
 
+/* ─── train svg ─────────────────────────────────────────────────────────── */
+function TrainSVG() {
+  return (
+    <svg width={560} height={100} viewBox="0 0 560 100" overflow="visible">
+      {/* smoke puffs */}
+      {([0, 1, 2] as const).map((i) => (
+        <motion.circle
+          key={i}
+          cx={355}
+          cy={2}
+          r={5 + i * 3}
+          fill={SLATE}
+          initial={{ y: 0, opacity: 0.45 }}
+          animate={{ y: -(18 + i * 14), opacity: 0 }}
+          transition={{ duration: 1.6, repeat: Infinity, delay: i * 0.55, ease: "easeOut" }}
+        />
+      ))}
+
+      {/* box car 1 */}
+      <rect x={30} y={22} width={136} height={50} rx={3} fill={SLATE} opacity={0.6} />
+      <rect x={30} y={22} width={136} height={8} rx={3} fill={BLUE} opacity={0.55} />
+      <text x={98} y={54} fontFamily="Inter, monospace, sans-serif" fontSize={8} fill={BG} textAnchor="middle" letterSpacing="3" opacity={0.9}>NOKIA</text>
+      <circle cx={68} cy={78} r={10} fill={BG} stroke={SLATE} strokeWidth={2} />
+      <circle cx={136} cy={78} r={10} fill={BG} stroke={SLATE} strokeWidth={2} />
+
+      {/* coupler */}
+      <line x1={166} y1={48} x2={176} y2={48} stroke={SLATE} strokeWidth={5} opacity={0.45} />
+
+      {/* box car 2 */}
+      <rect x={176} y={22} width={136} height={50} rx={3} fill={SLATE} opacity={0.6} />
+      <rect x={176} y={22} width={136} height={8} rx={3} fill={BLUE} opacity={0.55} />
+      <text x={244} y={54} fontFamily="Inter, monospace, sans-serif" fontSize={8} fill={BG} textAnchor="middle" letterSpacing="3" opacity={0.9}>NOKIA</text>
+      <circle cx={214} cy={78} r={10} fill={BG} stroke={SLATE} strokeWidth={2} />
+      <circle cx={282} cy={78} r={10} fill={BG} stroke={SLATE} strokeWidth={2} />
+
+      {/* coupler */}
+      <line x1={312} y1={48} x2={322} y2={48} stroke={SLATE} strokeWidth={5} opacity={0.45} />
+
+      {/* locomotive body */}
+      <rect x={322} y={17} width={178} height={58} rx={4} fill={GOLD} />
+      {/* boiler band */}
+      <rect x={322} y={46} width={124} height={4} fill="#8A6D20" opacity={0.55} />
+      {/* cab */}
+      <rect x={452} y={8} width={60} height={67} rx={4} fill="#C8A830" />
+      {/* cab window */}
+      <rect x={466} y={17} width={28} height={22} rx={2} fill={BG} opacity={0.75} />
+      {/* smokestack */}
+      <rect x={344} y={1} width={16} height={20} rx={2} fill="#8A6D20" />
+      {/* wheels */}
+      <circle cx={366} cy={78} r={12} fill={BG} stroke={GOLD} strokeWidth={2.5} />
+      <circle cx={412} cy={78} r={12} fill={BG} stroke={GOLD} strokeWidth={2.5} />
+      <circle cx={458} cy={78} r={12} fill={BG} stroke={GOLD} strokeWidth={2.5} />
+      <circle cx={490} cy={78} r={8}  fill={BG} stroke={GOLD} strokeWidth={2} />
+      {/* cowcatcher */}
+      <polygon points="500,55 516,75 500,75" fill="#8A6D20" opacity={0.75} />
+    </svg>
+  );
+}
+
+function RailwaySlide({ slide }: { slide: Slide }) {
+  const lines = slide.body?.split("\n") ?? [];
+  return (
+    <div style={{ position: "relative", height: "100%", overflow: "hidden" }}>
+      {/* text */}
+      <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "100%", maxWidth: 820, margin: "0 auto", padding: "0 40px 130px" }}>
+        {slide.label && (
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35 }}
+            style={{ fontFamily: "Inter, system-ui, sans-serif", fontSize: 12, letterSpacing: "0.35em", color: GOLD, textTransform: "uppercase", marginBottom: 20 }}
+          >
+            {slide.label}
+          </motion.p>
+        )}
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, duration: 0.4 }}
+          style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(40px, 7vw, 80px)", color: WHITE, lineHeight: 1.05, letterSpacing: "0.02em", marginBottom: 32 }}
+        >
+          {slide.headline}
+        </motion.h2>
+        {lines.map((line, i) => (
+          <motion.p
+            key={i}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: line === "" ? 0 : 1, y: 0 }}
+            transition={{ delay: 0.25 + i * 0.08, duration: 0.35 }}
+            style={{ fontFamily: "Inter, system-ui, sans-serif", fontSize: "clamp(16px, 2.2vw, 22px)", color: WHITE, lineHeight: 1.65, opacity: 0.88, marginBottom: line === "" ? 12 : 0 }}
+          >
+            {line}
+          </motion.p>
+        ))}
+      </div>
+
+      {/* tracks */}
+      <div style={{ position: "absolute", bottom: 24, left: 0, right: 0, pointerEvents: "none" }}>
+        <svg width="100%" height={20} preserveAspectRatio="none">
+          <line x1={0} y1={6}  x2="100%" y2={6}  stroke={SLATE} strokeWidth={2.5} opacity={0.22} />
+          <line x1={0} y1={14} x2="100%" y2={14} stroke={SLATE} strokeWidth={2.5} opacity={0.22} />
+        </svg>
+      </div>
+
+      {/* train */}
+      <motion.div
+        initial={{ x: -620 }}
+        animate={{ x: 1900 }}
+        transition={{ duration: 18, repeat: Infinity, ease: "linear", delay: 0.6 }}
+        style={{ position: "absolute", bottom: 0, left: 0, pointerEvents: "none" }}
+      >
+        <TrainSVG />
+      </motion.div>
+    </div>
+  );
+}
+
 /* ─── slide router ─────────────────────────────────────────────────────── */
 function SlideContent({ slide }: { slide: Slide }) {
   switch (slide.variant) {
-    case "title":   return <TitleSlide />;
-    case "stats":   return <StatsSlide slide={slide} />;
-    case "zoom":    return <ZoomSlide slide={slide} />;
-    case "curtain": return <CurtainSlide slide={slide} />;
-    default:        return <DefaultSlide slide={slide} />;
+    case "title":    return <TitleSlide />;
+    case "briefing": return <BriefingSlide slide={slide} />;
+    case "railway":  return <RailwaySlide slide={slide} />;
+    case "stats":    return <StatsSlide slide={slide} />;
+    case "zoom":     return <ZoomSlide slide={slide} />;
+    case "curtain":  return <CurtainSlide slide={slide} />;
+    default:         return <DefaultSlide slide={slide} />;
   }
 }
 

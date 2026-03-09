@@ -1,4 +1,4 @@
-export type SlideVariant = "default" | "title" | "stats" | "zoom" | "curtain";
+export type SlideVariant = "default" | "title" | "briefing" | "stats" | "zoom" | "curtain" | "railway";
 
 export interface Slide {
   id: number;
@@ -19,7 +19,7 @@ export const slides: Slide[] = [
     label: "THE BRIEFING",
     headline: "You've been lied to your whole life.",
     body: "Every map. Every textbook. Every Finnish person you think you've met. All part of the same cover-up. Tonight, we end the silence.",
-    variant: "default",
+    variant: "briefing",
   },
   {
     id: 3,
@@ -38,8 +38,8 @@ export const slides: Slide[] = [
   {
     id: 5,
     label: "NOKIA",
-    headline: "Japan's biggest Nokia importer. No one in Japan owns a Nokia.",
-    body: "Where are all those \"phones\" going?\n\nThe fish.",
+    headline: "Nokia is Finnish. Japan is their biggest customer.",
+    body: "Japan makes Sony. Panasonic. Sharp. Fujitsu. They don't import phones — they export them.\n\nAnd yet: Japan buys more Nokia than anywhere else on earth. No Japanese person owns one.\n\nSo what's actually in the boxes?",
     variant: "default",
   },
   {
@@ -47,7 +47,7 @@ export const slides: Slide[] = [
     label: "THE RAILWAY",
     headline: "9,289 kilometres.",
     body: "The Trans-Siberian Railway. The longest railway on earth. Built to move \u201cNokia products\u201d from the Baltic coast to Japan. Every cargo manifest stamped: ELECTRONICS. Every crate full of fish.",
-    variant: "default",
+    variant: "railway",
   },
   {
     id: 7,
