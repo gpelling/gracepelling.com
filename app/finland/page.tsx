@@ -6,9 +6,11 @@ import { slides } from "./slides";
 import type { Slide } from "./slides";
 
 /* ─── tokens ──────────────────────────────────────────────────────────── */
-const RED = "#CC0000";
-const YELLOW = "#FFD700";
-const WHITE = "#FFF8F0";
+const BG      = "#0A0202";  // mineral black
+const GOLD    = "#B5993B";  // warm gold — dominant
+const BLUE    = "#4C79B7";  // Finnish blue
+const SLATE   = "#889DBA";  // muted slate
+const WHITE   = "#E8E4DC";  // soft off-white
 
 /* ─── fish svg ─────────────────────────────────────────────────────────── */
 function Fish({ size = 120 }: { size?: number }) {
@@ -26,20 +28,20 @@ function Fish({ size = 120 }: { size?: number }) {
       {/* tail */}
       <motion.polygon
         points="10,20 10,100 50,60"
-        fill={YELLOW}
+        fill={GOLD}
         animate={{ scaleX: [1, 0.85, 1] }}
         transition={{ repeat: Infinity, duration: 0.6, ease: "easeInOut" }}
         style={{ transformOrigin: "50px 60px" }}
       />
       {/* body */}
-      <ellipse cx="115" cy="60" rx="75" ry="45" fill={YELLOW} />
+      <ellipse cx="115" cy="60" rx="75" ry="45" fill={GOLD} />
       {/* belly highlight */}
-      <ellipse cx="115" cy="72" rx="50" ry="22" fill="#FFE55C" opacity={0.5} />
+      <ellipse cx="115" cy="72" rx="50" ry="22" fill="#D4B86A" opacity={0.5} />
       {/* eye */}
       <circle cx="162" cy="50" r="10" fill={WHITE} />
-      <circle cx="164" cy="50" r="5" fill="#1a0a00" />
+      <circle cx="164" cy="50" r="5" fill={BG} />
       {/* mouth */}
-      <path d="M180 62 Q190 68 180 72" stroke="#1a0a00" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+      <path d="M180 62 Q190 68 180 72" stroke={BG} strokeWidth="2.5" fill="none" strokeLinecap="round" />
     </motion.svg>
   );
 }
@@ -61,7 +63,7 @@ function TitleSlide() {
           letterSpacing: "0.05em",
           lineHeight: 1,
           textAlign: "center",
-          textShadow: `0 0 60px rgba(255,215,0,0.3)`,
+          textShadow: `0 0 60px rgba(181,153,59,0.25)`,
         }}
       >
         FINLAND<br />DOES NOT<br />EXIST
@@ -70,7 +72,7 @@ function TitleSlide() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.6 }}
         transition={{ delay: 1.4, duration: 0.5 }}
-        style={{ fontFamily: "Inter, system-ui, sans-serif", fontSize: 14, color: WHITE, letterSpacing: "0.3em", textTransform: "uppercase" }}
+        style={{ fontFamily: "Inter, system-ui, sans-serif", fontSize: 14, color: SLATE, letterSpacing: "0.3em", textTransform: "uppercase" }}
       >
         click to advance
       </motion.p>
@@ -92,7 +94,7 @@ function DefaultSlide({ slide }: { slide: Slide }) {
             fontFamily: "Inter, system-ui, sans-serif",
             fontSize: 12,
             letterSpacing: "0.35em",
-            color: YELLOW,
+            color: GOLD,
             textTransform: "uppercase",
             marginBottom: 20,
           }}
@@ -147,7 +149,7 @@ function StatsSlide({ slide }: { slide: Slide }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.35 }}
-          style={{ fontFamily: "Inter, system-ui, sans-serif", fontSize: 12, letterSpacing: "0.35em", color: YELLOW, textTransform: "uppercase", marginBottom: 20 }}
+          style={{ fontFamily: "Inter, system-ui, sans-serif", fontSize: 12, letterSpacing: "0.35em", color: GOLD, textTransform: "uppercase", marginBottom: 20 }}
         >
           {slide.label}
         </motion.p>
@@ -177,9 +179,9 @@ function StatsSlide({ slide }: { slide: Slide }) {
             style={{
               fontFamily: "'Bebas Neue', sans-serif",
               fontSize: "clamp(28px, 5vw, 56px)",
-              color: YELLOW,
+              color: GOLD,
               letterSpacing: "0.03em",
-              borderLeft: `4px solid ${YELLOW}`,
+              borderLeft: `4px solid ${BLUE}`,
               paddingLeft: 24,
             }}
           >
@@ -199,7 +201,7 @@ function ZoomSlide({ slide }: { slide: Slide }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4 }}
-          style={{ fontFamily: "Inter, system-ui, sans-serif", fontSize: 12, letterSpacing: "0.35em", color: YELLOW, textTransform: "uppercase", marginBottom: 24 }}
+          style={{ fontFamily: "Inter, system-ui, sans-serif", fontSize: 12, letterSpacing: "0.35em", color: GOLD, textTransform: "uppercase", marginBottom: 24 }}
         >
           {slide.label}
         </motion.p>
@@ -215,7 +217,7 @@ function ZoomSlide({ slide }: { slide: Slide }) {
           textAlign: "center",
           letterSpacing: "0.04em",
           lineHeight: 1.1,
-          textShadow: `0 0 80px rgba(255,215,0,0.4)`,
+          textShadow: `0 0 80px rgba(76,121,183,0.35)`,
         }}
       >
         {slide.headline}
@@ -235,7 +237,7 @@ function CurtainSlide({ slide }: { slide: Slide }) {
         style={{ textAlign: "center" }}
       >
         {slide.label && (
-          <p style={{ fontFamily: "Inter, system-ui, sans-serif", fontSize: 12, letterSpacing: "0.35em", color: YELLOW, textTransform: "uppercase", marginBottom: 24 }}>
+          <p style={{ fontFamily: "Inter, system-ui, sans-serif", fontSize: 12, letterSpacing: "0.35em", color: GOLD, textTransform: "uppercase", marginBottom: 24 }}>
             {slide.label}
           </p>
         )}
@@ -279,7 +281,7 @@ function CurtainSlide({ slide }: { slide: Slide }) {
         style={{
           position: "absolute",
           inset: 0,
-          background: RED,
+          background: BLUE,
           zIndex: 10,
         }}
       />
@@ -302,11 +304,11 @@ function SlideContent({ slide }: { slide: Slide }) {
 function ProgressBar({ current, total }: { current: number; total: number }) {
   const pct = ((current) / (total - 1)) * 100;
   return (
-    <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, height: 4, background: "rgba(255,255,255,0.15)", zIndex: 100 }}>
+    <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, height: 4, background: "rgba(232,228,220,0.1)", zIndex: 100 }}>
       <motion.div
         animate={{ width: `${pct}%` }}
         transition={{ duration: 0.4, ease: "easeOut" }}
-        style={{ height: "100%", background: YELLOW, borderRadius: "0 2px 2px 0" }}
+        style={{ height: "100%", background: GOLD, borderRadius: "0 2px 2px 0" }}
       />
     </div>
   );
@@ -346,7 +348,7 @@ export default function FinlandSlideshow() {
       onClick={advance}
       style={{
         position: "fixed", inset: 0,
-        background: RED,
+        background: BG,
         cursor: index < slides.length - 1 ? "pointer" : "default",
         userSelect: "none",
         overflow: "hidden",
