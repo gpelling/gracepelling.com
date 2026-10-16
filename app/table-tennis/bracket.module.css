@@ -1,0 +1,313 @@
+.page {
+  --ball: #ff8a1f;
+  --line: rgba(246, 243, 234, 0.55);
+  --card: #f6f3ea;
+  --ink: #14251d;
+  min-height: 100vh;
+  padding: 32px 16px 64px;
+  background:
+    linear-gradient(90deg, transparent calc(50% - 1px), rgba(255, 255, 255, 0.08) calc(50% - 1px), rgba(255, 255, 255, 0.08) calc(50% + 1px), transparent calc(50% + 1px)),
+    #0f4d36;
+  color: var(--card);
+  font-family: "Share Tech Mono", monospace;
+}
+
+.header {
+  max-width: 1280px;
+  margin: 0 auto 28px;
+}
+
+.title {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(2.6rem, 8vw, 4.5rem);
+  font-weight: normal;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.title span {
+  color: var(--ball);
+}
+
+.subtitle {
+  margin-top: 6px;
+  opacity: 0.8;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.button {
+  padding: 8px 14px;
+  border: 2px solid var(--card);
+  background: transparent;
+  color: var(--card);
+  font: inherit;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.button:hover:not(:disabled) {
+  background: rgba(246, 243, 234, 0.12);
+}
+
+.button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.primary {
+  border-color: var(--ball);
+  background: var(--ball);
+  color: #1b1206;
+}
+
+.primary:hover:not(:disabled) {
+  background: #ffa04a;
+}
+
+/* ── Setup ─────────────────────────────────────── */
+.setup {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 360px;
+  margin-top: 8px;
+  padding: 12px;
+  border: 2px solid var(--line);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--card);
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--ball);
+}
+
+.hint {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* ── Champion banner ───────────────────────────── */
+.banner {
+  max-width: 1280px;
+  margin: 0 auto 28px;
+  padding: 18px 20px;
+  border: 3px solid var(--ball);
+  background: rgba(255, 138, 31, 0.12);
+  text-align: center;
+}
+
+.bannerLabel {
+  font-size: 0.85rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.bannerName {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(2.4rem, 9vw, 4rem);
+  line-height: 1.1;
+  color: var(--ball);
+}
+
+/* ── Bracket ───────────────────────────────────── */
+.section {
+  max-width: 1280px;
+  margin: 0 auto 32px;
+}
+
+.sectionLabel {
+  margin-bottom: 4px;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.5rem;
+  font-weight: normal;
+  letter-spacing: 0.06em;
+}
+
+.sectionHint {
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+  opacity: 0.75;
+}
+
+.playIn {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.playIn > * {
+  width: 220px;
+}
+
+.scroller {
+  overflow-x: auto;
+  padding-bottom: 16px;
+}
+
+.bracket {
+  display: flex;
+  min-width: max-content;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  width: 236px;
+}
+
+.columnHead {
+  height: 32px;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.2rem;
+  letter-spacing: 0.06em;
+  text-align: center;
+  opacity: 0.85;
+}
+
+.columnBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Two feeder matches joined by a bracket line on the right. */
+.pair {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-right: 24px;
+}
+
+.pair::after {
+  content: "";
+  position: absolute;
+  top: 25%;
+  bottom: 25%;
+  right: 0;
+  width: 24px;
+  border: 2px solid var(--line);
+  border-left: none;
+}
+
+.slot {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 6px 0;
+}
+
+/* Every column after the first gets a stub line from the bracket on its left. */
+.column + .column .slot {
+  padding-left: 16px;
+}
+
+.column + .column .slot::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  border-top: 2px solid var(--line);
+}
+
+/* ── Match card ────────────────────────────────── */
+.card {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.cardLabel {
+  padding: 3px 8px;
+  background: var(--ink);
+  color: var(--card);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.player {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 32px;
+  padding: 6px 8px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 0.95rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.player + .player {
+  border-top: 1px solid rgba(20, 37, 29, 0.15);
+}
+
+.player:hover:not(:disabled) {
+  background: rgba(255, 138, 31, 0.2);
+}
+
+.player:disabled {
+  cursor: default;
+}
+
+.player:focus-visible {
+  outline: 2px solid var(--ball);
+  outline-offset: -2px;
+}
+
+.winner,
+.winner:hover:not(:disabled) {
+  background: var(--ball);
+  color: #1b1206;
+  font-weight: bold;
+}
+
+.loser {
+  opacity: 0.45;
+  text-decoration: line-through;
+}
+
+.tbd {
+  color: rgba(20, 37, 29, 0.45);
+  font-style: italic;
+}
+
+.seed {
+  flex-shrink: 0;
+  width: 22px;
+  font-size: 0.75rem;
+  text-align: right;
+  opacity: 0.6;
+}
+
+.name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
