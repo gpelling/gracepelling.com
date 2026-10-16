@@ -160,7 +160,9 @@ function Bracket({
 
   const realMatches = rounds.flat().filter((m) => !m.bye);
   const decided = realMatches.filter((m) => m.winner !== null).length;
-  const champion = rounds[rounds.length - 1][0].winner;
+  const final = rounds[rounds.length - 1][0];
+  const champion = final.winner;
+  const [confetti, setConfetti] = useState<Piece[] | null>(null);
 
   function pick(match: Match, seed: number) {
     const next = { ...tournament.picks };
@@ -168,6 +170,11 @@ function Bracket({
     else next[match.key] = seed;
     // Rebuilding drops later picks for anyone no longer in the running.
     onChange({ players, picks: buildBracket(players.length, next).picks });
+
+    if (match.key === final.key && next[match.key] === seed) {
+      setConfetti(makeConfetti());
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }
 
   // Label for an empty slot in the tree, pointing at the match that fills it.
@@ -192,6 +199,7 @@ function Bracket({
 
   return (
     <div className={styles.page}>
+      {confetti && <Confetti pieces={confetti} onDone={() => setConfetti(null)} />}
       <header className={styles.header}>
         <Title />
         <p className={styles.subtitle}>
@@ -296,6 +304,53 @@ function ConfirmButton({
     >
       {armed ? confirmLabel : label}
     </button>
+  );
+}
+
+type Piece = { left: number; size: number; color: string; delay: number; duration: number; drift: number; spin: number };
+
+const CONFETTI_COLORS = ["#ff8a1f", "#f6f3ea", "#ffd23f", "#ff5d73", "#4fc3f7"];
+
+// Built in the click handler, not during render, so the random values stay put.
+function makeConfetti(): Piece[] {
+  return Array.from({ length: 150 }, () => ({
+    left: Math.random() * 100,
+    size: 6 + Math.random() * 6,
+    color: CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)],
+    delay: Math.random() * 0.6,
+    duration: 2.5 + Math.random() * 1.5,
+    drift: (Math.random() - 0.5) * 200,
+    spin: (Math.random() - 0.5) * 1440,
+  }));
+}
+
+function Confetti({ pieces, onDone }: { pieces: Piece[]; onDone: () => void }) {
+  return (
+    <div
+      className={styles.confetti}
+      aria-hidden
+      // The container's own animation outlasts every piece; ignore pieces' events bubbling up.
+      onAnimationEnd={(e) => e.target === e.currentTarget && onDone()}
+    >
+      {pieces.map((p, i) => (
+        <span
+          key={i}
+          className={styles.piece}
+          style={
+            {
+              left: `${p.left}%`,
+              width: p.size,
+              height: p.size * 1.4,
+              background: p.color,
+              animationDelay: `${p.delay}s`,
+              animationDuration: `${p.duration}s`,
+              "--drift": `${p.drift}px`,
+              "--spin": `${p.spin}deg`,
+            } as React.CSSProperties
+          }
+        />
+      ))}
+    </div>
   );
 }
 
