@@ -74,6 +74,14 @@ function TournamentApp() {
   );
 }
 
+function Title() {
+  return (
+    <h1 className={styles.title}>
+      Table Tennis <span>Tournament</span>
+    </h1>
+  );
+}
+
 function Setup({
   draft,
   onChange,
@@ -92,9 +100,7 @@ function Setup({
   return (
     <div className={styles.page}>
       <div className={styles.setup}>
-        <h1 className={styles.title}>
-          Table Tennis <span>Tournament</span>
-        </h1>
+        <Title />
         <p className={styles.subtitle}>One name per line. List order sets the seeding.</p>
 
         <textarea
@@ -149,6 +155,7 @@ function Bracket({
   const hasPlayIn = rounds[0].some((m) => m.bye);
   const playIn = hasPlayIn ? rounds[0].filter((m) => !m.bye) : [];
   const tree = hasPlayIn ? rounds.slice(1) : rounds;
+  const byes = players.length - playIn.length * 2;
   const playInNumber = new Map(playIn.map((m, i) => [m.key, i + 1]));
 
   const realMatches = rounds.flat().filter((m) => !m.bye);
@@ -186,9 +193,7 @@ function Bracket({
   return (
     <div className={styles.page}>
       <header className={styles.header}>
-        <h1 className={styles.title}>
-          Table Tennis <span>Tournament</span>
-        </h1>
+        <Title />
         <p className={styles.subtitle}>
           {players.length} players · {decided} of {realMatches.length} matches played · click a name to
           advance them
@@ -221,7 +226,7 @@ function Bracket({
         <section className={styles.section}>
           <h2 className={styles.sectionLabel}>Play-in</h2>
           <p className={styles.sectionHint}>
-            Seeds 1–{players.length - playIn.length * 2} have a bye into the {roundName(tree[0].length)}.
+            {byes === 1 ? "Seed 1 has" : `Seeds 1–${byes} have`} a bye into the {roundName(tree[0].length)}.
           </p>
           <div className={styles.playIn}>
             {playIn.map((m, i) => (
@@ -239,12 +244,12 @@ function Bracket({
                 <div className={styles.columnHead}>{roundName(round.length)}</div>
                 <div className={styles.columnBody}>
                   {round.length === 1 ? (
-                    <div className={`${styles.slot} ${r > 0 ? styles.fed : ""}`}>{card(round[0])}</div>
+                    <div className={styles.slot}>{card(round[0])}</div>
                   ) : (
                     pairs(round).map(([top, bottom]) => (
                       <div key={top.key} className={styles.pair}>
                         {[top, bottom].map((m) => (
-                          <div key={m.key} className={`${styles.slot} ${r > 0 ? styles.fed : ""}`}>
+                          <div key={m.key} className={styles.slot}>
                             {card(m)}
                           </div>
                         ))}
@@ -254,20 +259,6 @@ function Bracket({
                 </div>
               </div>
             ))}
-
-            <div className={styles.column}>
-              <div className={styles.columnHead}>Champion</div>
-              <div className={styles.columnBody}>
-                <div className={`${styles.slot} ${styles.fed}`}>
-                  <div className={styles.trophy}>
-                    <div className={styles.trophyIcon}>🏆</div>
-                    <div className={styles.trophyName}>
-                      {champion !== null ? players[champion - 1] : "TBD"}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -291,12 +282,6 @@ function ConfirmButton({
   onConfirm: () => void;
 }) {
   const [armed, setArmed] = useState(false);
-
-  useEffect(() => {
-    if (!armed) return;
-    const timer = setTimeout(() => setArmed(false), 4000);
-    return () => clearTimeout(timer);
-  }, [armed]);
 
   return (
     <button
@@ -346,8 +331,8 @@ function MatchCard({
             key={side}
             className={`${styles.player} ${state}`}
             disabled={!ready}
-            aria-pressed={seed !== null && match.winner === seed}
-            onClick={() => seed !== null && onPick(match, seed)}
+            aria-pressed={ready && match.winner === seed}
+            onClick={() => onPick(match, seed!)}
           >
             <span className={styles.seed}>{seed ?? ""}</span>
             <span className={`${styles.name} ${seed === null ? styles.tbd : ""}`}>
